@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>السجان لخدمات الساتلايت</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background: #141414;
+        color: #fff;
+        scroll-behavior: smooth;
+        direction: rtl;
+      }
+      header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        background: #e50914;
+        padding: 15px 30px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #fff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.7);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header .logo {
+        cursor: pointer;
+        animation: pulse 2s infinite alternate;
+      }
+      @keyframes pulse {
+        0% { text-shadow: 0 0 10px #e50914; }
+        100% { text-shadow: 0 0 20px #f6121d; }
+      }
+      nav {
+        display: flex;
+        gap: 25px;
+        font-size: 18px;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        transition: background 0.3s;
+      }
+      nav a:hover {
+        background: #f6121d;
+      }
+      .welcome-section {
+        height: 100vh;
+        background: linear-gradient(135deg, #e50914, #b20710);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        margin-top: 70px;
+      }
+      .welcome-section h1 {
+        font-size: 4rem;
+        margin: 0 0 20px;
+        animation: fadeInDown 1.5s ease forwards;
+      }
+      .welcome-section p {
+        font-size: 1.5rem;
+        margin: 0;
+        animation: fadeInUp 1.5s ease forwards;
+      }
+      @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-50px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(50px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      section {
+        padding: 60px 30px 80px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      section h2 {
+        font-size: 2.8rem;
+        margin-bottom: 30px;
+        color: #e50914;
+        border-bottom: 3px solid #e50914;
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+        gap: 25px;
+      }
+      .product {
+        background: #222;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 8px #000;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .product:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 25px #e50914;
+      }
+      .p-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        filter: brightness(1);
+        transition: filter 0.3s ease;
+      }
+      .product:hover .p-image {
+        filter: brightness(1.2);
+      }
+      .product-info {
+        padding: 15px 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-info h3 {
+        margin: 0 0 8px;
+        color: #f6121d;
+      }
+      .product-info p {
+        margin: 0 0 15px;
+        color: #ccc;
+        font-size: 14.5px;
+        flex-grow: 1;
+      }
+      .price {
+        font-size: 20px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #e50914;
+      }
+      .btn-group {
+        display: flex;
+        gap: 10px;
+      }
+      .product-info button {
+        background: #e50914;
+        border: none;
+        color: #fff;
+        padding: 12px 16px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease;
+        flex: 1;
+      }
+      .product-info button:hover {
+        background: #f6121d;
+      }
+      .product-info button.details-btn {
+        background: #444;
+      }
+      .product-info button.details-btn:hover {
+        background: #666;
+      }
+      .about-text {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        color: #ddd;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .contact-section {
+        text-align: center;
+      }
+      .contact-section a {
+        display: inline-block;
+        background: #e50914;
+        color: white;
+        padding: 14px 30px;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 6px 10px rgba(229, 9, 20, 0.6);
+        transition: background 0.3s ease;
+      }
+      .contact-section a:hover {
+        background: #f6121d;
+      }
+      footer {
+        background: #222;
+        text-align: center;
+        color: #777;
+        padding: 15px;
+        font-size: 14px;
+      }
+      footer a {
+        color: #e50914;
+        text-decoration: none;
+      }
+      /* مودال التفاصيل */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1500;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .modal-content {
+        background: #222;
+        border-radius: 12px;
+        max-width: 600px;
+        width: 100%;
+        padding: 25px 30px;
+        color: #eee;
+        position: relative;
+        animation: slideDown 0.3s ease forwards;
+      }
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-50px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: transparent;
+        border: none;
+        font-size: 28px;
+        color: #e50914;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+      .modal-close:hover {
+        color: #f6121d;
+      }
+      .modal-content h3 {
+        margin-top: 0;
+        color: #f6121d;
+      }
+      .modal-content img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+      .modal-content p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo" onclick="scrollToSection('welcome')">
+        السجان لخدمات الساتلايت
+      </div>
+      <nav>
+        <a href="#welcome">الرئيسية</a>
+        <a href="#products">منتجاتنا</a>
+        <a href="#about">من نحن</a>
+        <a href="#contact">اتصل بنا</a>
+      </nav>
+    </header>
+
+    <section id="welcome" class="welcome-section">
+      <h1>مرحبًا بكم في السجان لخدمات الساتلايت</h1>
+      <p>أفضل أجهزة الريسيفر بأحدث التقنيات وأفضل الأسعار.</p>
+    </section>
+
+    <section id="products">
+      <h2>منتجاتنا</h2>
+      <div class="products">
+        <div class="product">
+          <img
+            class="p-image"
+            src="https://hardsat.com/wp-content/uploads/2024/08/IMG-20240829-WA0016.jpg.webp"
+            alt="Nova I Air Pro +5G"
+          />
+          <div class="product-info">
+            <h3>Nova I Air Pro +5G</h3>
+            <p>ريسيفر قوي يدعم Wi-Fi وبلوتوث بدقة Full HD و5G</p>
+            <div class="price">1,950 جنيه</div>
+            <div class="btn-group">
+              <button
+                onclick="orderNow('Nova I Air Pro +5G'); event.stopPropagation();"
+              >
+                اطلب الآن
+              </button>
+              <button
+                class="details-btn"
+                onclick="showDetails('nova'); event.stopPropagation();"
+              >
+                التفاصيل
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="product">
+          <img
+            class="p-image"
+            src="https://eg.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/24/8872231/2.jpg?4846"
+            alt="Starnet Edge Pro HD"
+          />
+          <div class="product-info">
+            <h3>Starnet Edge Pro HD</h3>
+            <p>ريسيفر HD من ستارنت مع سعر تنافسي وأداء ممتاز</p>
+            <div class="price">≈2,530 جنيه</div>
+            <div class="btn-group">
+              <button
+                onclick="orderNow('Starnet Edge Pro HD'); event.stopPropagation();"
+              >
+                اطلب الآن
+              </button>
+              <button
+                class="details-btn"
+                onclick="showDetails('starnet'); event.stopPropagation();"
+              >
+                التفاصيل
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="product">
+          <img
+            class="p-image"
+            src="https://eg.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/43/6483331/1.jpg?8223"
+            alt="Level G11 HD"
+          />
+          <div class="product-info">
+            <h3>Level G11 HD</h3>
+            <p>ريسيفر من ليفيل بدقة HD وسعر مناسب جداً</p>
+            <div class="price">≈1,300 جنيه</div>
+            <div class="btn-group">
+              <button
+                onclick="orderNow('Level G11 HD'); event.stopPropagation();"
+              >
+                اطلب الآن
+              </button>
+              <button
+                class="details-btn"
+                onclick="showDetails('level'); event.stopPropagation();"
+              >
+                التفاصيل
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="product">
+          <img
+            class="p-image"
+            src="https://m.media-amazon.com/images/I/61yEbQn16HL.jpg"
+            alt="Fortune F5 HD"
+          />
+          <div class="product-info">
+            <h3>Starnet Twin Plus</h3>
+            <p>ريسيفر حاز على ثقة العملاء لجودته العالية ودعمه الكبير</p>
+            <div class="price">≈3,800 جنيه</div>
+            <div class="btn-group">
+              <button
+                onclick="orderNow('Fortune F5 HD'); event.stopPropagation();"
+              >
+                اطلب الآن
+              </button>
+              <button
+                class="details-btn"
+                onclick="showDetails('fortune'); event.stopPropagation();"
+              >
+                التفاصيل
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>من نحن</h2>
+      <p class="about-text">
+        السجان لخدمات الساتلايت هي شركة رائدة في مجال أجهزة الريسيفرات وخدمات
+        الساتلايت في مصر، نقدم أحدث الأجهزة بأفضل الأسعار مع دعم فني متميز وخدمة
+        عملاء على مدار الساعة.
+      </p>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <h2>اتصل بنا</h2>
+      <a href="https://wa.me/201234567890" target="_blank" rel="noopener"
+        >تواصل معنا على واتساب</a
+      >
+    </section>
+
+    <footer>
+      جميع الحقوق محفوظة &copy; 2025
+      <a href="https://www.ssgan.com" target="_blank" rel="noopener"
+        >السجان لخدمات الساتلايت</a
+      >
+    </footer>
+
+    <!-- مودال التفاصيل -->
+    <div id="productModal" class="modal" onclick="closeModal(event)">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal(event)">&times;</button>
+        <h3 id="modalTitle"></h3>
+        <img id="modalImage" src="" alt="" />
+        <p id="modalDescription"></p>
+      </div>
+    </div>
+
+    <script>
+      function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({behavior: 'smooth'});
+      }
+
+      function orderNow(productName) {
+        alert(`شكرًا لطلبك جهاز ${productName}.\nسيتم التواصل معك قريبًا.`);
+        // هنا يمكنك إضافة وظيفة لإرسال الطلب فعلياً
+      }
+
+      const productDetails = {
+        nova: {
+          title: 'Nova I Air Pro +5G',
+          image: 'https://hardsat.com/wp-content/uploads/2024/08/IMG-20240829-WA0016.jpg.webp',
+          description: `ريسيفر قوي يدعم Wi-Fi وبلوتوث، يدعم جودة Full HD وتقنية 5G للاتصال الأسرع. يتميز بسهولة الاستخدام والتحديثات الدورية لضمان أفضل أداء. مناسب لجميع قنوات الفضائيات الحديثة.`
+        },
+        starnet: {
+          title: 'Starnet Edge Pro HD',
+          image: 'https://cdn.freewebstore.com/origin/877945/1000051761_1747406889104.jpg',
+          description: `ريسيفر عالي الجودة من ستارنت يدعم دقة HD ويقدم أداء ممتاز بسعر منافس. مناسب للاستخدام المنزلي مع دعم لمجموعة واسعة من القنوات وخدمة فنية متميزة.`
+        },
+        level: {
+          title: 'Level G11 HD',
+          image: 'https://eg.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/43/6483331/1.jpg?8223',
+          description: `ريسيفر من ليفيل يقدم جودة صورة عالية HD مع أداء مستقر وسعر اقتصادي. مثالي لمن يبحث عن جهاز بسيط وفعال.`
+        },
+        fortune: {
+          title: 'STarnet Twin Puls',
+          image: 'https://m.media-amazon.com/images/I/61yEbQn16HL.jpg',
+          description: `جهاز Fortune F5 HD حاز على ثقة المستخدمين لجودته العالية ودعمه الكبير لجميع قنوات الساتلايت. يأتي مع تحديثات منتظمة وخدمة ما بعد البيع متميزة.`
+        }
+      };
+
+      function showDetails(key) {
+        const modal = document.getElementById('productModal');
+        const title = document.getElementById('modalTitle');
+        const image = document.getElementById('modalImage');
+        const desc = document.getElementById('modalDescription');
+        const details = productDetails[key];
+
+        if (!details) return;
+
+        title.textContent = details.title;
+        image.src = details.image;
+        image.alt = details.title;
+        desc.textContent = details.description;
+
+        modal.style.display = 'flex';
+      }
+
+      function closeModal(e) {
+        if (e) e.stopPropagation();
+        document.getElementById('productModal').style.display = 'none';
+      }
+
+      // اغلاق المودال بالضغط على ESC
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') {
+          closeModal();
+        }
+      });
+    </script>
+  </body>
+</html>
